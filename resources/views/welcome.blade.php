@@ -38,7 +38,7 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">First commit</div>
+                <div class="title">Remote commit</div>
             </div>
         </div>
     </body>
