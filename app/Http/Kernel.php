@@ -34,6 +34,17 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
         ],
+
+        /* Advanced middleware groups */
+        'auth.admin' => [
+            \App\Http\Middleware\AuthAdmin::class
+        ],
+        'auth.moder' => [
+            \App\Http\Middleware\AuthModer::class
+        ],
+        'auth.user' => [
+            \App\Http\Middleware\AuthUser::class
+        ]
     ];
 
     /**

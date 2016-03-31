@@ -9,5 +9,8 @@ use App\Http\Controllers\Controller;
 
 class ModerController extends Controller
 {
-    //
+    public function index()
+    {
+        return view('moder.index');
+    }
 }

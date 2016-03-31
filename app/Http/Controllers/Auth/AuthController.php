@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Routing\Route;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -29,14 +31,16 @@ class AuthController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $auth;
 
     /**
      * Create a new authentication controller instance.
-     *
-     * @return void
+     **
+     * @param Guard $auth
      */
-    public function __construct()
+    public function __construct(Guard $auth)
     {
+        $this->auth = $auth;
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -67,6 +71,24 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role_id' => 3
         ]);
+    }
+
+    /**
+     * Create redirect path after authentication
+     *
+     */
+    public function redirectPath()
+    {
+        if($this->auth->user()->role_id == 1) $this->redirectTo = '/admin';
+        else if($this->auth->user()->role_id == 2) $this->redirectTo = '/moder';
+        else if($this->auth->user()->role_id == 3) $this->redirectTo = '/profile';
+
+        if (property_exists($this, 'redirectPath')) {
+            return $this->redirectPath;
+        }
+
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/home';
     }
 }
