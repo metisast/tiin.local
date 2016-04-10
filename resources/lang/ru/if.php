@@ -43,7 +43,8 @@ return [
     "gForgotPassword" => "Забыли пароль?",
     "gSignIn" => "Вход",
     "gRegister" => "Регистрация",
-    "gLogout" => "Выход"
+    "gLogout" => "Выход",
+    "gNav" => "Навигация"
 
 
 ];
