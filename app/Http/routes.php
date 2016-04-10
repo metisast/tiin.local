@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect'], 'prefix' => LaravelLocalization::setLocale()], function () {
 
     Route::group([
         'namespace' => 'Guest',
@@ -24,7 +24,7 @@ Route::group(['middleware' => ['web']], function () {
     });
 
 });
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect'], 'prefix' => LaravelLocalization::setLocale()], function () {
 
     /*
     |--------------------------------------------------------------------------
