@@ -193,6 +193,5 @@ class ProductsCategoriesSubTableSeeder extends Seeder
             }
 
         }
-
     }
 }

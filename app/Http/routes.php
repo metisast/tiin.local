@@ -84,10 +84,14 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
         'as' => 'user::',
         'prefix' => 'profile'
     ], function(){
-        /* Admin home page */
+        /* User home page */
         Route::get('/', [
             'as' => 'index',
             'uses' => 'UserController@index'
+        ]);
+        Route::get('/user', [
+           'as' => 'user',
+            'uses' => 'UserController@profile'
         ]);
     });
 
