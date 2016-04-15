@@ -95,4 +95,22 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
         ]);
     });
 
+    /*
+    |--------------------------------------------------------------------------
+    | XMLHttpRequest routes group
+    |--------------------------------------------------------------------------
+    |
+    */
+    Route::group([
+        'namespace' => 'Xhr',
+        'as' => 'xhr::',
+        'prefix' => 'xhr'
+    ], function(){
+        /* User home page */
+        Route::post('/cities', [
+            'as' => 'cities',
+            'uses' => 'Xhr@getCities'
+        ]);
+    });
+
 });

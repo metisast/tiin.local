@@ -27,9 +27,14 @@
                 </div>
                 <div class="media-right">
                     <input type="file">
+                    <br>
+                    <div class="form-group">
+                        <button class="btn btn-success">Изменить</button>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
+                <br>
                 <label>Имя</label>
                 <input type="text" class="form-control" value="{{Auth::user()->name}}">
             </div>
@@ -61,17 +66,13 @@
             <h4 class="text-center">Дополнительная информация</h4>
             <hr>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="regions">
                     <label>Область</label>
-                    <select name="" id="" class="form-control">
-                        <option value="1">1</option>
-                    </select>
+                    {!! Helpers::select($regions, 0,'Выберите область', ['id' => 'regions', 'class' => 'form-control']) !!}
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="cities">
                     <label>Город</label>
-                    <select name="" id="" class="form-control">
-                        <option value="1">1</option>
-                    </select>
+                    {!! Helpers::select([], 0, '', ['class' => 'form-control', 'disabled' => true]) !!}
                 </div>
             </div>
             <div class="form-group">
