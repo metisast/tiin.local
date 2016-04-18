@@ -89,10 +89,18 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
             'as' => 'index',
             'uses' => 'UserController@index'
         ]);
+        /*User show profile*/
         Route::get('/user', [
            'as' => 'user',
             'uses' => 'UserController@profile'
         ]);
+        /*User edit profile*/
+        Route::post('/user', [
+            'as' => 'editProfile',
+            'uses' => 'UserController@editProfile'
+        ]);
+        /*User products*/
+        Route::resource('photo', 'PhotoController');
     });
 
     /*
@@ -110,6 +118,11 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
         Route::post('/cities', [
             'as' => 'cities',
             'uses' => 'Xhr@getCities'
+        ]);
+        /* Set user photo */
+        Route::post('/photo', [
+            'as' => 'photo',
+            'uses' => 'Xhr@photo'
         ]);
     });
 

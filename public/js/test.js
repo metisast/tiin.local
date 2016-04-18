@@ -36,4 +36,44 @@ $(function(){
         }
 
     });
+
+    /*--------------------*/
+    var btnSendPhoto = $('#send-photo');
+    var photoUser = $('.photo-user');
+    var files;
+
+    $('#photo-user').change(function(){
+        files = this.files;
+        //console.log(files[0]);
+    })
+
+    btnSendPhoto.click(function(){
+        event.stopPropagation();
+        event.preventDefault();
+
+        if(files){
+            var data = new FormData();
+            $.each(files, function(key, value){
+                data.append(key, value);
+            });
+
+            //console.log(data);
+
+            $.ajax({
+                url: '/xhr/photo',
+                type: 'post',
+                contentType: false,
+                //dataType: 'json',
+                processData: false,
+                data: data,
+                success: function(data){
+                    //console.log(data);
+                    $('.photo-user').attr('src', '/images/users/'+data.imageName);
+                },
+                error: function(err){
+                    console.log(err.responseText);
+                }
+            });
+        }
+    });
 });

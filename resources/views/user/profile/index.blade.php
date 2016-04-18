@@ -17,50 +17,59 @@
             <hr>
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
-                        <img src="http://dummyimage.com/100x100/ccc/fff.jpg" class="img-circle">
-                    </a>
+                    @if(Auth::user()->main_photo)
+                        <a href="#">
+                            <img src="/images/users/{{Auth::user()->main_photo}}" class="img-rounded photo-user">
+                        </a>
+                    @else
+                        <a href="#">
+                            <img src="http://dummyimage.com/100x100/ccc/fff.jpg" class="img-circle photo-user">
+                        </a>
+                    @endif
                 </div>
                 <div class="media-body">
                     <p><strong>Изменить фотографию</strong></p>
-                    <small>Минимальный размер 100х100</small>
+                    <small>Максимальный размер 5Мб</small>
                 </div>
                 <div class="media-right">
-                    <input type="file">
+                    <input type="file" name="photo" id="photo-user" required>
                     <br>
                     <div class="form-group">
-                        <button class="btn btn-success">Изменить</button>
+                        <button class="btn btn-success" id="send-photo">Изменить</button>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <br>
-                <label>Имя</label>
-                <input type="text" class="form-control" value="{{Auth::user()->name}}">
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label>Новый пароль</label>
-                    <input type="password" class="form-control">
+            <form method="post" id="update-user" action="{{route('user::editProfile')}}">
+                {!! csrf_field() !!}
+                <div class="form-group">
+                    <br>
+                    <label>Имя</label>
+                    <input type="text" class="form-control" value="{{Auth::user()->name}}" name="name">
                 </div>
-                <div class="form-group col-md-6">
-                    <label>Повторить пароль</label>
-                    <input type="password" class="form-control">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Новый пароль</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Повторить пароль</label>
+                        <input type="password" class="form-control" name="password_confirmation">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" class="form-control" value="{{Auth::user()->email}}">
-            </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" class="form-control" value="{{Auth::user()->email}}" name="email">
+                </div>
 
-            <label>Телефон</label>
-            <div class="input-group">
-                <span class="input-group-addon">+7</span>
-                <input type="text" class="form-control" value="{{Auth::user()->phone}}">
-            </div>
-            <div class="form-group"><br>
-                <button class="btn btn-primary">Обновить</button>
-            </div>
+                <label>Телефон</label>
+                <div class="input-group">
+                    <span class="input-group-addon">+7</span>
+                    <input type="text" class="form-control" value="{{Auth::user()->phone}}" name="phone">
+                </div>
+                <div class="form-group"><br>
+                    <button class="btn btn-primary">Обновить</button>
+                </div>
+            </form>
         </div>
         <div class="col-md-6">
             <h4 class="text-center">Дополнительная информация</h4>
@@ -76,7 +85,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary">Обновить</button>
+                <button class="btn btn-primary" form="update-user" name="submit">Обновить</button>
             </div>
         </div>
     </div>

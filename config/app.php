@@ -158,6 +158,7 @@ return [
 
         /*Custom providers*/
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -206,7 +207,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         /*Custom aliases*/
-        'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class
+        'LaravelLocalization'   => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

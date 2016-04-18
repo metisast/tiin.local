@@ -21,4 +21,9 @@ class UserController extends Controller
             ->with('scripts', $a = ['test.js'])
             ->with('regions', Region::getRegions());
     }
+
+    public function editProfile(Request $request)
+    {
+        dd($request->all());
+    }
 }
