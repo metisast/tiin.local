@@ -85,22 +85,16 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
         'prefix' => 'profile'
     ], function(){
         /* User home page */
-        Route::get('/', [
-            'as' => 'index',
-            'uses' => 'UserController@index'
-        ]);
+        Route::get('/', ['as' => 'index', 'uses' => 'UserController@index']);
+
         /*User show profile*/
-        Route::get('/user', [
-           'as' => 'user',
-            'uses' => 'UserController@profile'
-        ]);
+        Route::get('/user', ['as' => 'user', 'uses' => 'UserController@profile']);
+
         /*User edit profile*/
-        Route::post('/user', [
-            'as' => 'editProfile',
-            'uses' => 'UserController@editProfile'
-        ]);
+        Route::post('/user', ['as' => 'editProfile', 'uses' => 'UserController@editProfile']);
+
         /*User products*/
-        Route::resource('photo', 'PhotoController');
+        Route::resource('products', 'ProductsController');
     });
 
     /*
@@ -114,16 +108,17 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
         'as' => 'xhr::',
         'prefix' => 'xhr'
     ], function(){
-        /* User home page */
-        Route::post('/cities', [
-            'as' => 'cities',
-            'uses' => 'Xhr@getCities'
-        ]);
+        /* Get cities by region*/
+        Route::post('/cities', ['as' => 'cities', 'uses' => 'Xhr@getCities']);
+
+        /* Get sub categories by main category*/
+        Route::post('/subcat', ['as' => 'subcat', 'uses' => 'Xhr@getCategories']);
+
         /* Set user photo */
-        Route::post('/photo', [
-            'as' => 'photo',
-            'uses' => 'Xhr@photo'
-        ]);
+        Route::post('/photo', ['as' => 'photo', 'uses' => 'Xhr@photo']);
+
+        /* Set product images */
+        Route::post('/product-images', ['as' => 'productImages', 'uses' => 'Xhr@productImages']);
     });
 
 });

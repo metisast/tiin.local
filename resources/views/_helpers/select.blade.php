@@ -1,6 +1,6 @@
 <select
         @foreach($attrs as $key => $value)
-            {{$key."=$value"}}
+            {!!$key."='$value'"!!}
         @endforeach
         >
     @if($first_options)

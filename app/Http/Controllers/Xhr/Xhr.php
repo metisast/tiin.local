@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Xhr;
 
+use App\Models\ProductsCategoriesSub;
 use Helpers;
 use App\Models\RegionsCity;
 use Illuminate\Contracts\Auth\Guard;
@@ -25,6 +26,12 @@ class Xhr extends Controller
     {
         $id = $this->request->input('id');
         return Helpers::select(RegionsCity::getCitiesByRegion($id), 0, 'Выберите город');
+    }
+
+    public function getCategories()
+    {
+        $id = $this->request->input('id');
+        return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), 0);
     }
 
     public function photo(Guard $guard)

@@ -60,7 +60,6 @@
                     <label>Email</label>
                     <input type="text" class="form-control" value="{{Auth::user()->email}}" name="email">
                 </div>
-
                 <label>Телефон</label>
                 <div class="input-group">
                     <span class="input-group-addon">+7</span>

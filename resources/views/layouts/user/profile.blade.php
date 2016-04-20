@@ -14,10 +14,10 @@
                     <h4 class="text-center">Навигация</h4>
                     <ul class="nav nav-pills nav-stacked">
                         <li class="active"><a href="{{route('user::index')}}">Активность</a></li>
-                        <li><a href="#">Продать</a></li>
+                        <li><a href="{{route('user::profile.products.create')}}">Продать</a></li>
                         <li><a href="#">Подать аукцион</a></li>
                         <li><a href="{{route('user::user')}}">Профиль</a></li>
-                        <li><a href="#">Выход</a></li>
+                        <li><a href="/logout">Выход</a></li>
                     </ul>
                 </div>
             </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\ProductsCategories;
+use App\Models\Region;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +18,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -26,7 +28,10 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.products.create')
+            ->with('scripts', $a = ['test.js'])
+            ->with('categories', ProductsCategories::getCategories())
+            ->with('regions', Region::getRegions());
     }
 
     /**

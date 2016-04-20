@@ -1,5 +1,7 @@
 /*Regions cities show*/
 $(function(){
+
+    /*---------- REGIONS AND CITIES ----------*/
     var cities = $('#cities select');
     var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom').css('display', 'block');
 
@@ -9,7 +11,7 @@ $(function(){
         }
     });
 
-    $('#regions').on('change', '#regions', function(){
+    $('#regions select').on('change', function(){
         var region_id = $(this).val();
 
         if(region_id != 0){
@@ -37,7 +39,7 @@ $(function(){
 
     });
 
-    /*--------------------*/
+    /*---------- UPLOAD USER PHOTO ----------*/
     var btnSendPhoto = $('#send-photo');
     var photoUser = $('.photo-user');
     var files;
@@ -45,7 +47,7 @@ $(function(){
     $('#photo-user').change(function(){
         files = this.files;
         //console.log(files[0]);
-    })
+    });
 
     btnSendPhoto.click(function(){
         event.stopPropagation();
@@ -76,4 +78,37 @@ $(function(){
             });
         }
     });
+
+    /*---------- PRODUCTS CATEGORIES ----------*/
+    $('#category select').on('change', function(){
+        var category_id = $(this).val();
+        console.log(category_id);
+        var category_sub = $('#category_sub select');
+
+        if(category_id != 0){
+            $.ajax({
+                url: '/xhr/subcat',
+                type: 'post',
+                data: {id: category_id},
+                beforeSend: function(){
+                    category_sub.hide();
+                    $('#category_sub').append(loader);
+                },
+                success: function (data) {
+                    category_sub.show().html(data).attr('disabled', false);
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+                complete: function(){
+                    loader.remove();
+                }
+            });
+        }else{
+            category_sub.empty().attr('disabled', true);
+        }
+    });
+
+    /*---------- Upload images ----------*/
+
 });
