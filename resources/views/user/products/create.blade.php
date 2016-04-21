@@ -35,33 +35,23 @@
             <div class="form-group">
                 <label>Фотографии</label>
                 <div class="row text-center">
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
-                            <i class="fa fa-plus"></i><input type="file" name="photo">
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
+                    <div class="col-md-3">
+                        <span class="img-thumbnail btn-file">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
+                    <div class="col-md-3">
+                        <span class="img-thumbnail btn-file">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
+                    <div class="col-md-3">
+                        <span class="img-thumbnail btn-file">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
-                            <i class="fa fa-plus"></i><input type="file">
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <span class="btn btn-default btn-file btn-lg">
+                    <div class="col-md-3">
+                        <span class="img-thumbnail btn-file">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>

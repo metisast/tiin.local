@@ -92,4 +92,28 @@ class Xhr extends Controller
                 ->setStatusCode(500);
         }
     }
+
+    public function productImages()
+    {
+        $file = $this->request->file()[0];
+        if($file)
+        {
+            //sleep(3);
+            $pathImage = public_path().'/images/tmp/products-images/';
+            $name = str_random(32);
+            $mime = '.jpg';
+            Image::make($file)->fit(140, 90)->save($pathImage.$name.$mime, 100);
+            return response()
+                ->json(['productImage' =>$name.$mime]);
+        }
+    }
+
+    public function productImagesDelete()
+    {
+        $src = $this->request->input('src');
+        if(file_exists(public_path().$src))
+        {
+            unlink(public_path().$src);
+        }
+    }
 }

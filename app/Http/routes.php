@@ -119,6 +119,9 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
 
         /* Set product images */
         Route::post('/product-images', ['as' => 'productImages', 'uses' => 'Xhr@productImages']);
+
+        /* Delete product images */
+        Route::post('/product-images/delete', ['as' => 'productImagesDelete', 'uses' => 'Xhr@productImagesDelete']);
     });
 
 });

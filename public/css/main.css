@@ -8,11 +8,12 @@ body {
 .btn-file {
     position: relative;
     overflow: hidden;
-    width: 100px;
+    width: 150px;
     height: 100px;
+    cursor: pointer;
 }
-.btn-file i{
-    line-height: 80px;
+.btn-file .fa-plus{
+    line-height: 95px;
 }
 .btn-file input[type=file] {
     position: absolute;
@@ -28,4 +29,8 @@ body {
     background: white;
     cursor: inherit;
     display: block;
+}
+.btn-delete-image{
+    padding: 3px 7px;
+    border-radius: 0 3px 0 0;
 }
