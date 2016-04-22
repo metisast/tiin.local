@@ -65,16 +65,22 @@ class Xhr extends Controller
                     {
                         unlink($pathImage.$guard->user()->main_photo);
 
-                        Image::make($file)->widen(100)->save($pathImage.$name.$mime, 100);
+                        Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
                         $guard->user()->main_photo = $name.$mime;
                         $guard->user()->save();
                     }
                     else
                     {
-                        Image::make($file)->widen(100)->save($pathImage.$name.$mime, 100);
+                        Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
                         $guard->user()->main_photo = $name.$mime;
                         $guard->user()->save();
                     }
+                }
+                else
+                {
+                    Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
+                    $guard->user()->main_photo = $name.$mime;
+                    $guard->user()->save();
                 }
                 return response()->json(['imageName' => $guard->user()->main_photo]);
             }

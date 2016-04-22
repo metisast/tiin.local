@@ -51,12 +51,10 @@ $(function(){
 
     $('#photo-user').change(function(){
         files = this.files;
-        //console.log(files[0]);
+        console.log(files[0]);
     });
 
     btnSendPhoto.click(function(){
-        event.stopPropagation();
-        event.preventDefault();
 
         if(files){
             var data = new FormData();
@@ -74,7 +72,7 @@ $(function(){
                 processData: false,
                 data: data,
                 success: function(data){
-                    //console.log(data);
+                    console.log(data);
                     $('.photo-user').attr('src', '/images/users/'+data.imageName);
                 },
                 error: function(err){
