@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-md-6" id="cities">
                         <label>Город</label>
-                        {!! Helpers::select([], 0, '', ['class' => 'form-control']) !!}
+                        {!! Helpers::select([], 0, '', ['class' => 'form-control', 'disabled' => true]) !!}
                     </div>
                 </div>
             </div>

@@ -121,12 +121,13 @@ $(function(){
     var files;
     var self;
 
-    $('.btn-file').click(function(){
+    /*$('.btn-file').click(function(){
         self = $(this);
-    });
+    });*/
 
     btnFile.on('change', 'input', function(){
         files = this.files;
+        self = $(this).parent();
         console.log(files[0]);
         if(files){
             var data = new FormData();
@@ -174,6 +175,7 @@ $(function(){
 
     $('.btn-file').on('click','.btn-delete-image', function(){
         var src = $(this).prev().attr('src');
+        self = $(this).parent();
         $.ajax({
             url: '/xhr/product-images/delete',
             type: 'post',
