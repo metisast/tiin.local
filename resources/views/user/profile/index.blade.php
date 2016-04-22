@@ -18,12 +18,12 @@
             <div class="media">
                 <div class="media-left">
                     @if(Auth::user()->main_photo)
-                        <a href="#">
-                            <img src="/images/users/{{Auth::user()->main_photo}}" class="img-rounded photo-user">
+                        <a href="#" class="photo-user">
+                            <img src="/images/users/{{Auth::user()->main_photo}}" class="img-rounded">
                         </a>
                     @else
-                        <a href="#">
-                            <img src="http://dummyimage.com/100x100/ccc/fff.jpg" class="img-circle photo-user">
+                        <a href="#" class="photo-user">
+                            <img src="http://dummyimage.com/100x100/ccc/fff.jpg" class="img-rounded">
                         </a>
                     @endif
                 </div>

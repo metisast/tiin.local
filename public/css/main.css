@@ -34,3 +34,8 @@ body {
     padding: 3px 7px;
     border-radius: 0 3px 0 0;
 }
+.photo-user{
+    display: block;
+    width: 100px;
+    line-height: 100px;
+}

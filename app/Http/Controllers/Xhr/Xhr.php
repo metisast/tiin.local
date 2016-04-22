@@ -42,7 +42,6 @@ class Xhr extends Controller
                 ->json(['error' => 'limit is exceeded'])
                 ->setStatusCode(500);
         }
-
         $file = $this->request->file()[0];
         if($file->isValid() && $file->getClientSize() < $file->getMaxFilesize())
         {

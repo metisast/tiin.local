@@ -7,7 +7,8 @@ $(function(){
         .css({
             display: 'inline-block',
             textAlign: 'center',
-            width: '100%'
+            width: '100%',
+            zIndex: '3'
         });
 
     $.ajaxSetup({
@@ -51,7 +52,6 @@ $(function(){
 
     $('#photo-user').change(function(){
         files = this.files;
-        console.log(files[0]);
     });
 
     btnSendPhoto.click(function(){
@@ -61,9 +61,6 @@ $(function(){
             $.each(files, function(key, value){
                 data.append(key, value);
             });
-
-            //console.log(data);
-
             $.ajax({
                 url: '/xhr/photo',
                 type: 'post',
@@ -71,12 +68,18 @@ $(function(){
                 //dataType: 'json',
                 processData: false,
                 data: data,
+                beforeSend: function(){
+                    photoUser.find('img').hide();
+                    photoUser.append(loader);
+                },
                 success: function(data){
-                    console.log(data);
-                    $('.photo-user').attr('src', '/images/users/'+data.imageName);
+                    photoUser.find('img').show().attr('src', '/images/users/'+data.imageName);
                 },
                 error: function(err){
                     console.log(err.responseText);
+                },
+                complete: function(){
+                    loader.remove();
                 }
             });
         }
