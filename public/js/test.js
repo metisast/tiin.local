@@ -3,13 +3,17 @@ $(function(){
 
     /*---------- REGIONS AND CITIES ----------*/
     var cities = $('#cities select');
-    var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom')
-        .css({
-            display: 'inline-block',
-            textAlign: 'center',
-            width: '100%',
-            zIndex: '3'
-        });
+
+    var loader = function(){
+        var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom')
+            .css({
+                display: 'inline-block',
+                textAlign: 'center',
+                width: '100%',
+                zIndex: '3'
+            });
+        return loader;
+    };
 
     $.ajaxSetup({
         headers: {
@@ -25,10 +29,6 @@ $(function(){
                 url: '/xhr/cities',
                 type: 'post',
                 data: {id: region_id},
-                beforeSend: function(){
-                    cities.hide();
-                    $('#cities').append(loader);
-                },
                 success: function (data) {
                     cities.show().html(data).attr('disabled', false);
                 },
@@ -96,10 +96,6 @@ $(function(){
                 url: '/xhr/subcat',
                 type: 'post',
                 data: {id: category_id},
-                beforeSend: function(){
-                    category_sub.hide();
-                    $('#category_sub').append(loader);
-                },
                 success: function (data) {
                     category_sub.show().html(data).attr('disabled', false);
                 },
@@ -119,13 +115,8 @@ $(function(){
     var btnFile = $('.btn-file');
     var image = $('.btn-file img');
     var files;
-    var self;
 
-    /*$('.btn-file').click(function(){
-        self = $(this);
-    });*/
-
-    $(".btn-file").on('change.upload','input', function(event){
+    btnFile.on('change.upload','input', function(event){
         event.preventDefault();
         event.stopPropagation();
 
@@ -139,18 +130,6 @@ $(function(){
                 data.append(key, value);
             });
             getAjax(self, data);
-            /*$.when($.ajax({
-                url: '/xhr/product-images',
-                type: 'post',
-                contentType: false,
-                processData: false,
-                data: data}))
-                .then(function(data, textStatus, jqXHR){
-                    var img = $('<img>');
-                    img.attr('src', '/images/tmp/products-images/' + data.productImage);
-                    console.log(self);
-                    self.empty().append(img);
-                });*/
         }
     });
 
@@ -160,9 +139,13 @@ $(function(){
             type: 'post',
             contentType: false,
             processData: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             data: data,
             beforeSend: function(){
-                self.empty().append(loader.css('margin-top', '30px'));
+                console.log(self.attr('class'));
+                self.empty().append(loader());
             },
             success: function(data){
                 console.log(data.productImage);
@@ -172,7 +155,7 @@ $(function(){
                 console.log(self);
                 self.empty().append(img);
 
-                /*var btnClose = $('<button>');
+                var btnClose = $('<button>');
                  var btnCloseIco = $('<i>');
                  btnClose.addClass('btn btn-danger btn-delete-image').css({
                  right: '0',
@@ -182,13 +165,12 @@ $(function(){
                  btnCloseIco.addClass('fa fa-close');
                  btnClose.append(btnCloseIco);
 
-                 self.append(btnClose);*/
+                 self.append(btnClose);
             },
             error: function(err){
                 console.log(err.responseText);
             },
             complete: function(){
-                self.find(loader).remove();
                 console.log('complete');
             }
         });
