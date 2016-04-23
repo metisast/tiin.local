@@ -125,53 +125,74 @@ $(function(){
         self = $(this);
     });*/
 
-    btnFile.on('change', 'input', function(){
+    $(".btn-file").on('change.upload','input', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
         files = this.files;
-        self = $(this).parent();
-        console.log(files[0]);
+        self = $(event.delegateTarget);
+
+        console.log(event.delegateTarget);
         if(files){
             var data = new FormData();
             $.each(files, function(key, value){
                 data.append(key, value);
             });
-
-            $.ajax({
+            getAjax(self, data);
+            /*$.when($.ajax({
                 url: '/xhr/product-images',
                 type: 'post',
                 contentType: false,
                 processData: false,
-                data: data,
-                beforeSend: function(){
-                    self.empty().append(loader.css('margin-top', '30px'));
-                },
-                success: function(data){
-                    console.log(data.productImage);
-
+                data: data}))
+                .then(function(data, textStatus, jqXHR){
                     var img = $('<img>');
                     img.attr('src', '/images/tmp/products-images/' + data.productImage);
+                    console.log(self);
                     self.empty().append(img);
-
-                    var btnClose = $('<button>');
-                    var btnCloseIco = $('<i>');
-                    btnClose.addClass('btn btn-danger btn-delete-image').css({
-                        right: '0',
-                        position: 'absolute',
-                        top: '0'
-                    });
-                    btnCloseIco.addClass('fa fa-close');
-                    btnClose.append(btnCloseIco);
-
-                    self.append(btnClose);
-                },
-                error: function(err){
-                    console.log(err.responseText);
-                },
-                complete: function(){
-                    loader.remove();
-                }
-            });
+                });*/
         }
     });
+
+    var getAjax = function(self, data){
+        $.ajax({
+            url: '/xhr/product-images',
+            type: 'post',
+            contentType: false,
+            processData: false,
+            data: data,
+            beforeSend: function(){
+                self.empty().append(loader.css('margin-top', '30px'));
+            },
+            success: function(data){
+                console.log(data.productImage);
+
+                var img = $('<img>');
+                img.attr('src', '/images/tmp/products-images/' + data.productImage);
+                console.log(self);
+                self.empty().append(img);
+
+                /*var btnClose = $('<button>');
+                 var btnCloseIco = $('<i>');
+                 btnClose.addClass('btn btn-danger btn-delete-image').css({
+                 right: '0',
+                 position: 'absolute',
+                 top: '0'
+                 });
+                 btnCloseIco.addClass('fa fa-close');
+                 btnClose.append(btnCloseIco);
+
+                 self.append(btnClose);*/
+            },
+            error: function(err){
+                console.log(err.responseText);
+            },
+            complete: function(){
+                self.find(loader).remove();
+                console.log('complete');
+            }
+        });
+    }
 
     $('.btn-file').on('click','.btn-delete-image', function(){
         var src = $(this).prev().attr('src');

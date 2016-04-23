@@ -36,23 +36,23 @@
                 <label>Фотографии</label>
                 <div class="row text-center">
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file">
+                        <span class="img-thumbnail btn-file upload-1">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file">
-                            <i class="fa fa-plus"></i><input type="file">
+                        <span class="img-thumbnail btn-file upload-2">
+                            <i class="fa fa-plus"></i><input type="file" name="image2">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file">
-                            <i class="fa fa-plus"></i><input type="file">
+                        <span class="img-thumbnail btn-file upload-3">
+                            <i class="fa fa-plus"></i><input type="file" name="image3">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file">
-                            <i class="fa fa-plus"></i><input type="file">
+                        <span class="img-thumbnail btn-file upload-4">
+                            <i class="fa fa-plus"></i><input type="file" name="image4">
                         </span>
                     </div>
                 </div>
