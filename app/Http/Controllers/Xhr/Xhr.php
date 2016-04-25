@@ -5,17 +5,17 @@ namespace App\Http\Controllers\Xhr;
 use App\Models\ProductsCategoriesSub;
 use Helpers;
 use App\Models\RegionsCity;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Intervention\Image\Facades\Image;
 
 class Xhr extends Controller
 {
     protected $request;
     protected $mime = ['image/png', 'image/jpeg'];
     protected $maxImageSize = 5000000;
+    protected $nameImage;
+    protected $pathImage;
 
     public function __construct(Request $request)
     {
@@ -34,91 +34,35 @@ class Xhr extends Controller
         return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), 0);
     }
 
-    public function photo(Guard $guard)
+    /**
+     * Create user photo
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function photo()
     {
-        if(!isset($this->request->file()[0]))
-        {
-            return response()
-                ->json(['error' => 'limit is exceeded'])
-                ->setStatusCode(500);
-        }
-        $file = $this->request->file()[0];
-        if($file->isValid() && $file->getClientSize() < $file->getMaxFilesize())
-        {
-            if($file->getClientSize() > $this->maxImageSize)
-            {
-                return response()
-                ->json(['error' => 'limit is exceeded'])
-                ->setStatusCode(500);
-            }
-
-            $name = str_random(32);
-            $pathImage = public_path().'/images/users/';
-            $mime = '.jpg';
-
-            if(in_array($file->getMimeType(), $this->mime))
-            {
-                if($guard->user()->main_photo)
-                {
-                    if(file_exists($pathImage.$guard->user()->main_photo))
-                    {
-                        unlink($pathImage.$guard->user()->main_photo);
-
-                        Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
-                        $guard->user()->main_photo = $name.$mime;
-                        $guard->user()->save();
-                    }
-                    else
-                    {
-                        Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
-                        $guard->user()->main_photo = $name.$mime;
-                        $guard->user()->save();
-                    }
-                }
-                else
-                {
-                    Image::make($file)->fit(100, 100)->save($pathImage.$name.$mime, 100);
-                    $guard->user()->main_photo = $name.$mime;
-                    $guard->user()->save();
-                }
-                return response()->json(['imageName' => $guard->user()->main_photo]);
-            }
-            else
-            {
-                return response()
-                    ->json(['error' => 'file must be jpeg or png'])
-                    ->setStatusCode(500);
-            }
-        }
-        else
-        {
-            return response()
-                ->json([$this->request->file()[0]->getError()])
-                ->setStatusCode(500);
-        }
+        $photo = new \Images($this->request->file());
+        return $photo->setUserPhoto();
     }
 
+    /**
+     * Create product images
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function productImages()
     {
-        $file = $this->request->file()[0];
-        if($file)
-        {
-            //sleep(3);
-            $pathImage = public_path().'/images/tmp/products-images/';
-            $name = str_random(32);
-            $mime = '.jpg';
-            Image::make($file)->fit(140, 90)->save($pathImage.$name.$mime, 100);
-            return response()
-                ->json(['productImage' =>$name.$mime]);
-        }
+        $image = new \Images($this->request->file());
+        return $image->setProductImages();
     }
 
+    /**
+     * Delete tmp product images
+     * @return void
+     */
     public function productImagesDelete()
     {
         $src = $this->request->input('src');
-        if(file_exists(public_path().$src))
-        {
-            unlink(public_path().$src);
-        }
+
+        $delete = new \Images();
+        $delete->deleteProductImage($src);
     }
 }

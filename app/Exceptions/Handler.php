@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -45,6 +46,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceof FileException)
+        {
+            if($request->ajax())
+            {
+                return response()
+                    ->json(['error' => 'limit is exceede'])
+                    ->setStatusCode(500);
+            }
+        }
         return parent::render($request, $e);
     }
 }

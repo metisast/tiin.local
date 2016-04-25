@@ -5,7 +5,7 @@ $(function(){
     var cities = $('#cities select');
 
     var loader = function(){
-        var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom')
+        var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom loader')
             .css({
                 display: 'inline-block',
                 textAlign: 'center',
@@ -36,7 +36,7 @@ $(function(){
                     console.log(err);
                 },
                 complete: function(){
-                    loader.remove();
+
                 }
             });
         }else{
@@ -70,7 +70,7 @@ $(function(){
                 data: data,
                 beforeSend: function(){
                     photoUser.find('img').hide();
-                    photoUser.append(loader);
+                    photoUser.append(loader());
                 },
                 success: function(data){
                     photoUser.find('img').show().attr('src', '/images/users/'+data.imageName);
@@ -79,7 +79,7 @@ $(function(){
                     console.log(err.responseText);
                 },
                 complete: function(){
-                    loader.remove();
+                    $('.loader').remove();
                 }
             });
         }
@@ -88,7 +88,6 @@ $(function(){
     /*---------- PRODUCTS CATEGORIES ----------*/
     $('#category select').on('change', function(){
         var category_id = $(this).val();
-        console.log(category_id);
         var category_sub = $('#category_sub select');
 
         if(category_id != 0){
@@ -103,7 +102,7 @@ $(function(){
                     console.log(err);
                 },
                 complete: function(){
-                    loader.remove();
+
                 }
             });
         }else{
@@ -171,7 +170,8 @@ $(function(){
                 console.log(err.responseText);
             },
             complete: function(){
-                console.log('complete');
+                delete loader();
+                self.find('.loader').remove();
             }
         });
     }
