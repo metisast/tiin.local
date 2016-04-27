@@ -12,88 +12,101 @@
 
 @section('userContent')
     <div class="row">
-        <div class="col-md-offset-2 col-md-8">
+        <div class="col-md-offset-2 col-md-8" id="product">
             <div class="form-group">
                 <label>Заголовок</label>
-                <input type="text" name="title" class="form-control">
+                <input type="text" name="title" class="form-control" form="publish">
             </div>
-            <div class="form-group">
-                <label>Рубрика</label>
-                <div class="row">
-                    <div class="col-md-6" id="category">
-                        {!! Helpers::select($categories, 0, 'Выберите рубрику', ["class" => "form-control"]) !!}
+            <label>Рубрика</label>
+            <div class="form-inline">
+                <div class="form-group">
+                    <div id="category">
+                        {!! Helpers::select($categories, old('category_id'), 'Выберите рубрику', ["class" => "form-control", "form" => "publish", "name" => "category_id"]) !!}
                     </div>
-                    <div class="col-md-6" id="category_sub">
-                        {!! Helpers::select([], 0, '', ["class" => "form-control", 'disabled' => true]) !!}
+                </div>
+                <div class="form-group">
+                    <div id="category_sub">
+                        {!! Helpers::select([], old('category_sub_id'), '', ["class" => "form-control", 'disabled' => true,  "form" => "publish", "name" => "category_sub_id"]) !!}
                     </div>
                 </div>
             </div>
+            <br>
             <div class="form-group">
                 <label>Описание</label>
-                <textarea name="description" cols="30" rows="10" class="form-control"></textarea>
+                <textarea name="description" cols="30" rows="10" class="form-control" form="publish"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Цена</label>
+                <div class="form-inline">
+                    <div class="input-group">
+                        <input type="text" name="price" class="form-control" form="publish">
+                        <div class="input-group-addon">₸</div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label>Фотографии</label>
                 <div class="row text-center">
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file upload-1">
+                        <span class="img-thumbnail btn-file">
                             <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file upload-2">
-                            <i class="fa fa-plus"></i><input type="file" name="image2">
+                        <span class="img-thumbnail btn-file">
+                            <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file upload-3">
-                            <i class="fa fa-plus"></i><input type="file" name="image3">
+                        <span class="img-thumbnail btn-file">
+                            <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <span class="img-thumbnail btn-file upload-4">
-                            <i class="fa fa-plus"></i><input type="file" name="image4">
+                        <span class="img-thumbnail btn-file">
+                            <i class="fa fa-plus"></i><input type="file">
                         </span>
                     </div>
                 </div>
             </div>
             <hr>
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md-6" id="regions">
-                        <label>Населенный пункт</label>
-                        {!! Helpers::select($regions, 0, 'Выберите регион', ['class' => 'form-control']) !!}
+            <div class="form-inline">
+                <div class="form-group">
+                    <div id="regions">
+                        <label>Населенный пункт</label><br>
+                        {!! Helpers::select($regions, old('region_id'), 'Выберите регион', ['class' => 'form-control',"form" => "publish", "name" => "region_id"]) !!}
                     </div>
-                    <div class="col-md-6" id="cities">
-                        <label>Город</label>
-                        {!! Helpers::select([], 0, '', ['class' => 'form-control', 'disabled' => true]) !!}
+                </div>
+                <div class="form-group{{ $errors->has('city_id') ? ' has-error' : '' }}">
+                    <div id="cities">
+                        <label>Город</label><br>
+                        {!! Helpers::select([], old('city_id'), '', ['class' => 'form-control', 'disabled' => true, "form" => "publish", "name" => "city_id"]) !!}
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label>Контактное лицо</label>
-                    <input type="text" name="name" class="form-control">
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Email-адрес</label>
-                    <input type="text" name="email" class="form-control">
-                </div>
+            <br>
+            <div class="form-group">
+                <label>Контактное лицо</label>
+                <p class="form-control-static">{{ Auth::user()->name }}</p>
+            </div>
+            <div class="form-group">
+                <label>Email-адрес</label>
+                <p class="form-control-static">{{ Auth::user()->email }}</p>
             </div>
             <div class="form-group">
                 <label>Номер телефона</label>
-                <input type="text" name="phone" class="form-control">
+                <p class="form-control-static">{{ Auth::user()->phone }}</p>
             </div>
             <hr>
             <div class="form-group">
-                <label>
-                    <input type="checkbox"> Я согласен с правилами сервиса
-                </label>
+                <input type="checkbox" form="publish" name="license" value="on" id="license">
+                <label for="license"> Я согласен с правилами сервиса</label>
             </div>
             <div class="form-group">
                 <button class="btn btn-default" name="preview">Предпросмотр</button>
-                <button class="btn btn-primary" name="submit">Опубликовать</button>
+                <button class="btn btn-primary" name="submit" form="publish">Опубликовать</button>
             </div>
         </div>
     </div>
+    <form id="publish" data-src="{{route('user::profile.products.store')}}"></form>
 @stop

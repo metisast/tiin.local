@@ -1,9 +1,5 @@
-/*Regions cities show*/
 $(function(){
-
-    /*---------- REGIONS AND CITIES ----------*/
-    var cities = $('#cities select');
-
+    /*Create loader*/
     var loader = function(){
         var loader = $('<i>').addClass('fa fa-cog fa-spin fa-2x fa-fw margin-bottom loader')
             .css({
@@ -14,35 +10,50 @@ $(function(){
             });
         return loader;
     };
-
+    /*Global ajax config*/
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    /*Select request*/
+    var ajaxSelect = function(path, data, response){
+        $.ajax({
+            url: path,
+            type: 'post',
+            data: data,
+            success: function (data) {
+                response.html(data).attr('disabled', false);
+            },
+            error: function (err) {
+                console.log(err);
+            },
+            complete: function(){
 
-    $('#regions select').on('change', function(){
+            }
+        });
+    }
+
+    /*---------- REGIONS AND CITIES ----------*/
+    var regions = $('#regions select');
+    var cities = $('#cities select');
+
+    regions.on('change', function(){
         var region_id = $(this).val();
 
-        if(region_id != 0){
-            $.ajax({
-                url: '/xhr/cities',
-                type: 'post',
-                data: {id: region_id},
-                success: function (data) {
-                    cities.show().html(data).attr('disabled', false);
-                },
-                error: function (err) {
-                    console.log(err);
-                },
-                complete: function(){
+        if(region_id != 0) ajaxSelect('/xhr/cities', {id: region_id}, cities);
+        else cities.empty().attr('disabled', true);
+    });
 
-                }
-            });
-        }else{
-            cities.empty().attr('disabled', true);
-        }
+    /*---------- PRODUCTS CATEGORIES ----------*/
+    var category_sub = $('#category_sub select');
 
+    $('#category select').on('change', function(){
+        var category_id = $(this).val();
+
+        console.log(category_id);
+        if(category_id != 0) ajaxSelect('/xhr/subcat', {id: category_id}, category_sub);
+        else category_sub.empty().attr('disabled', true);
     });
 
     /*---------- UPLOAD USER PHOTO ----------*/
@@ -55,7 +66,6 @@ $(function(){
     });
 
     btnSendPhoto.click(function(){
-
         if(files){
             var data = new FormData();
             $.each(files, function(key, value){
@@ -85,42 +95,17 @@ $(function(){
         }
     });
 
-    /*---------- PRODUCTS CATEGORIES ----------*/
-    $('#category select').on('change', function(){
-        var category_id = $(this).val();
-        var category_sub = $('#category_sub select');
-
-        if(category_id != 0){
-            $.ajax({
-                url: '/xhr/subcat',
-                type: 'post',
-                data: {id: category_id},
-                success: function (data) {
-                    category_sub.show().html(data).attr('disabled', false);
-                },
-                error: function (err) {
-                    console.log(err);
-                },
-                complete: function(){
-
-                }
-            });
-        }else{
-            category_sub.empty().attr('disabled', true);
-        }
-    });
 
     /*---------- Upload images ----------*/
     var btnFile = $('.btn-file');
     var image = $('.btn-file img');
-    var files;
 
     btnFile.on('change.upload','input', function(event){
         event.preventDefault();
         event.stopPropagation();
 
         files = this.files;
-        self = $(event.delegateTarget);
+        var self = $(event.delegateTarget);
 
         console.log(event.delegateTarget);
         if(files){
@@ -128,11 +113,11 @@ $(function(){
             $.each(files, function(key, value){
                 data.append(key, value);
             });
-            getAjax(self, data);
+            setProductImage(self, data);
         }
     });
 
-    var getAjax = function(self, data){
+    var setProductImage = function(self, data){
         $.ajax({
             url: '/xhr/product-images',
             type: 'post',
@@ -148,41 +133,54 @@ $(function(){
             },
             success: function(data){
                 console.log(data.productImage);
-
-                var img = $('<img>');
-                img.attr('src', '/images/tmp/products-images/' + data.productImage);
-                console.log(self);
-                self.empty().append(img);
-
-                var btnClose = $('<button>');
-                 var btnCloseIco = $('<i>');
-                 btnClose.addClass('btn btn-danger btn-delete-image').css({
-                 right: '0',
-                 position: 'absolute',
-                 top: '0'
-                 });
-                 btnCloseIco.addClass('fa fa-close');
-                 btnClose.append(btnCloseIco);
-
-                 self.append(btnClose);
+                showImage(self, data);
             },
             error: function(err){
                 console.log(err.responseText);
             },
             complete: function(){
-                delete loader();
                 self.find('.loader').remove();
             }
         });
-    }
+    };
 
+    var showImage = function(self, data){
+        var img = $('<img>');
+        img.attr('src', '/images/tmp/products-images/thumbs/' + data.productImage);
+        console.log(self);
+        self.empty().append(img);
+
+        var btnClose = $('<button>');
+        var btnCloseIco = $('<i>');
+        btnClose.addClass('btn btn-danger btn-delete-image').css({
+            right: '0',
+            position: 'absolute',
+            top: '0'
+        });
+        btnCloseIco.addClass('fa fa-close');
+        btnClose.append(btnCloseIco);
+
+        var images = $('<input>').attr({
+            type: 'hidden',
+            name: 'images[]',
+            form: 'publish',
+            value: data.productImage
+        });
+
+        self.append(btnClose);
+        self.append(images);
+    };
+
+    /*Delete image*/
     $('.btn-file').on('click','.btn-delete-image', function(){
         var src = $(this).prev().attr('src');
-        self = $(this).parent();
+        var a = src.split('/');
+        var imageName = a[a.length-1];
+        var self = $(this).parent();
         $.ajax({
             url: '/xhr/product-images/delete',
             type: 'post',
-            data: {src: src},
+            data: {imageName: imageName},
             success: function(data){
                 var plus = $('<i>').addClass('fa fa-plus');
                 var input = $('<input>').attr('type', 'file');
@@ -196,4 +194,58 @@ $(function(){
             }
         });
     });
+
+    /*Post publish*/
+    var publish = $('#publish');
+    publish.submit(function(e){
+        e.preventDefault();
+        var data = publish.serialize();
+        var path = publish.data('src');
+        $.ajax({
+            url: path,
+            type: 'post',
+            data: data,
+            success: function(data){
+                $('.has-error').removeClass('has-error');
+                $('.help-block').remove();
+                $('#error-fields').remove();
+                console.log(data);
+            },
+            error: function(err){
+                errorTopMessage();
+                var fields = JSON.parse(err.responseText);
+                $('.has-error').removeClass('has-error');
+                $('.help-block').remove();
+                for(var key in fields){
+                    var field = $("[name="+key+"]");
+                    console.log(field);
+                    field.parents('.form-group').addClass('has-error').append(errorMessage(fields[key]));
+                }
+            }
+        });
+    });
+
+    var errorMessage = function(field){
+        var span = $('<span>').addClass('help-block');
+        var strong = $('<strong>').html(field);
+        span.append(strong);
+
+        return span;
+    }
+    var errorTopMessage = function(){
+        var block = $('#product');
+        var errorFields = $('#error-fields');
+        $.ajax({
+            url: '/xhr/messages/error',
+            type: 'post',
+            success: function(data){
+                errorFields.remove();
+                block.prepend(data);
+            }
+        });
+
+        $('body, html').animate({
+            scrollTop: 100
+        }, 1000);
+    }
 });

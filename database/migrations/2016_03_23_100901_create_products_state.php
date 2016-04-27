@@ -8,9 +8,9 @@ class CreateProductsState extends Migration
     /**
      * Products state
      * 1. New
-     * 2. UsedNew
-     * 3. Restore
-     * 4. Used
+     * 2. Used
+     * 3. UsedNew
+     * 4. Restore
      *
      * @return void
      */

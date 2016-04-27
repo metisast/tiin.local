@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->integer('user_id');
             $table->text('title', 1024);
             $table->text('description');
+            $table->integer('city_id');
             $table->timestamp('ended');
             $table->integer('status_publish');
             $table->integer('status_control');

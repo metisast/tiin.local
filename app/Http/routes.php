@@ -24,13 +24,14 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
     });
 
 });
+
 Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedirect'], 'prefix' => LaravelLocalization::setLocale()], function () {
 
     /*
     |--------------------------------------------------------------------------
     | Auth routes group
     |--------------------------------------------------------------------------
-    |
+    |larave
     */
     Route::auth();
 
@@ -122,6 +123,9 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
 
         /* Delete product images */
         Route::post('/product-images/delete', ['as' => 'productImagesDelete', 'uses' => 'Xhr@productImagesDelete']);
+
+        /* Error message */
+        Route::post('/messages/error', ['as' => 'messagesError', 'uses' => 'Xhr@messagesError']);
     });
 
 });

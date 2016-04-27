@@ -8,6 +8,7 @@ use App\Models\RegionsCity;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Xhr extends Controller
 {
@@ -20,6 +21,7 @@ class Xhr extends Controller
     public function __construct(Request $request)
     {
         $this->request = $request;
+        if(!$this->request->ajax()) throw new HttpException(500);
     }
 
     public function getCities()
@@ -31,7 +33,7 @@ class Xhr extends Controller
     public function getCategories()
     {
         $id = $this->request->input('id');
-        return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), 0);
+        return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), '');
     }
 
     /**
@@ -60,9 +62,14 @@ class Xhr extends Controller
      */
     public function productImagesDelete()
     {
-        $src = $this->request->input('src');
+        $src = $this->request->input('imageName');
 
         $delete = new \Images();
         $delete->deleteProductImage($src);
+    }
+
+    public function messagesError()
+    {
+        return response()->view('_helpers.messages.error-fields');
     }
 }

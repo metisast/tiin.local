@@ -4,7 +4,7 @@
         @endforeach
         >
     @if($first_options)
-        <option value="0">{{$first_options}}</option>
+        <option value="">{{$first_options}}</option>
     @endif
     @foreach($options as $option)
         @if($selected == $option['id'])

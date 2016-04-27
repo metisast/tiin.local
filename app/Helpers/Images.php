@@ -3,6 +3,7 @@
 use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Illuminate\Support\Facades\Auth;
+use \Illuminate\Support\Facades\File;
 
 class Images
 {
@@ -89,8 +90,12 @@ class Images
      */
     public function setProductImages()
     {
-        $this->pathImage = public_path().'/images/tmp/products-images/';
+        $this->pathImage = public_path().'/images/tmp/products-images/thumbs/';
         Image::make($this->file)->fit(140, 90)->save($this->renderImage(), 100);
+
+        $this->pathImage = public_path().'/images/tmp/products-images/normal/';
+        Image::make($this->file)->widen(800)->save($this->renderImage(), 100);
+
         return response()
             ->json(['productImage' => $this->nameImage . $this->mimeSave]);
     }
@@ -98,12 +103,42 @@ class Images
     /**
      * Delete tmp product images
      * @param $src
+     * @return void
      */
     public function deleteProductImage($src)
     {
-        if(file_exists(public_path().$src))
+        $this->pathImage = public_path()."/images/tmp/products-images/thumbs/$src";
+        if(file_exists($this->pathImage))
         {
-            unlink(public_path().$src);
+            unlink($this->pathImage);
+        }
+
+        $this->pathImage = public_path()."/images/tmp/products-images/normal/$src";
+        if(file_exists($this->pathImage))
+        {
+            unlink($this->pathImage);
+        }
+    }
+
+    /**
+     * Move five after save in DB
+     * @param $src
+     * @return void
+     */
+    public function moveImage($src)
+    {
+        $this->pathImage = public_path()."/images/tmp/products-images/thumbs/$src";
+        $newPath = public_path()."/images/products-images/thumbs/$src";
+        if(file_exists($this->pathImage))
+        {
+            if(!File::move($this->pathImage, $newPath)) die("Couldn't rename file");
+        }
+
+        $this->pathImage = public_path()."/images/tmp/products-images/normal/$src";
+        $newPath = public_path()."/images/products-images/normal/$src";
+        if(file_exists($this->pathImage))
+        {
+            if(!File::move($this->pathImage, $newPath)) die("Couldn't rename file");
         }
     }
 }
