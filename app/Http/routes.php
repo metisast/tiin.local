@@ -126,6 +126,9 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
 
         /* Error message */
         Route::post('/messages/error', ['as' => 'messagesError', 'uses' => 'Xhr@messagesError']);
+
+        /* Success message */
+        Route::post('/messages/success', ['as' => 'messagesSuccess', 'uses' => 'Xhr@messagesSuccess']);
     });
 
 });

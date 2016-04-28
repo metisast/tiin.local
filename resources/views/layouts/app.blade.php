@@ -70,9 +70,10 @@
     <!-- JavaScripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="/js/core/ajax-global.js"></script>
     @if(isset($scripts))
         @for($i = 0; $i < count($scripts); $i++)
-            <script src="/js/{{$scripts[$i]}}"></script>
+            <script src="/js/core/{{$scripts[$i]}}.js"></script>
         @endfor
     @endif
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}

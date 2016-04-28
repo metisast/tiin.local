@@ -21,7 +21,7 @@
             <div class="form-inline">
                 <div class="form-group">
                     <div id="category">
-                        {!! Helpers::select($categories, old('category_id'), 'Выберите рубрику', ["class" => "form-control", "form" => "publish", "name" => "category_id"]) !!}
+                        {!! Helpers::select($categories, old('category_id'), 'Выберите категорию рубрики', ["class" => "form-control", "form" => "publish", "name" => "category_id"]) !!}
                     </div>
                 </div>
                 <div class="form-group">
@@ -77,7 +77,7 @@
                         {!! Helpers::select($regions, old('region_id'), 'Выберите регион', ['class' => 'form-control',"form" => "publish", "name" => "region_id"]) !!}
                     </div>
                 </div>
-                <div class="form-group{{ $errors->has('city_id') ? ' has-error' : '' }}">
+                <div class="form-group">
                     <div id="cities">
                         <label>Город</label><br>
                         {!! Helpers::select([], old('city_id'), '', ['class' => 'form-control', 'disabled' => true, "form" => "publish", "name" => "city_id"]) !!}
@@ -104,7 +104,7 @@
             </div>
             <div class="form-group">
                 <button class="btn btn-default" name="preview">Предпросмотр</button>
-                <button class="btn btn-primary" name="submit" form="publish">Опубликовать</button>
+                <button class="btn btn-primary" name="submit" form="publish" data-toggle="modal" data-target="#myModal">Опубликовать</button>
             </div>
         </div>
     </div>

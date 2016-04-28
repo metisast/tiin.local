@@ -14,9 +14,4 @@ class Helpers
     {
         return "<script src='/js/$path'></script>";
     }
-
-    public static function uploadImg()
-    {
-
-    }
 }

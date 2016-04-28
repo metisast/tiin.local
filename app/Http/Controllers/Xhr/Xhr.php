@@ -27,13 +27,13 @@ class Xhr extends Controller
     public function getCities()
     {
         $id = $this->request->input('id');
-        return Helpers::select(RegionsCity::getCitiesByRegion($id), 0, 'Выберите город');
+        return Helpers::select(RegionsCity::getCitiesByRegion($id), '', 'Выберите город');
     }
 
     public function getCategories()
     {
         $id = $this->request->input('id');
-        return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), '');
+        return Helpers::select(ProductsCategoriesSub::getCategoriesSubByCat($id), '', 'Выберите рубрику');
     }
 
     /**
@@ -71,5 +71,10 @@ class Xhr extends Controller
     public function messagesError()
     {
         return response()->view('_helpers.messages.error-fields');
+    }
+
+    public function messagesSuccess()
+    {
+        return response()->view('_helpers.modals.success');
     }
 }

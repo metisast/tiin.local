@@ -36,7 +36,7 @@ class ProductsController extends Controller
     public function create()
     {
         return view('user.products.create')
-            ->with('scripts', $a = ['test.js'])
+            ->with('scripts', $a = ['product-publish', 'select', 'upload-product-images'])
             ->with('categories', ProductsCategories::getCategories())
             ->with('regions', Region::getRegions());
     }
