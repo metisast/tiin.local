@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(Product $product)
     {
-        $products = $product::getProductsById();
+        $products = $product::getProductsByUser();
         return view('user.index')
             ->with('products', $products);
     }

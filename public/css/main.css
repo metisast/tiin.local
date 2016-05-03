@@ -39,3 +39,7 @@ body {
     width: 100px;
     line-height: 100px;
 }
+.thumbs{
+    width: 100px;
+    display: block;
+}

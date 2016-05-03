@@ -96,6 +96,12 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
 
         /*User products*/
         Route::resource('products', 'ProductsController');
+
+        /* Auction create */
+        Route::get('/auction/create', ['as' => 'auctionCreate', 'uses' => 'AuctionController@create']);
+
+        /* Auction store */
+        Route::post('/auction', ['as' => 'auctionStore', 'uses' => 'AuctionController@store']);
     });
 
     /*
@@ -129,6 +135,10 @@ Route::group(['middleware' => ['web', 'localeSessionRedirect', 'localizationRedi
 
         /* Success message */
         Route::post('/messages/success', ['as' => 'messagesSuccess', 'uses' => 'Xhr@messagesSuccess']);
+
+        /* Get auction up/down form */
+        Route::post('/auction-price-form', ['as' => 'auctionUpForm', 'uses' => 'Xhr@auctionPriceForm']);
+
     });
 
 });

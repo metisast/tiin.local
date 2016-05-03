@@ -13,15 +13,11 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class Xhr extends Controller
 {
     protected $request;
-    protected $mime = ['image/png', 'image/jpeg'];
-    protected $maxImageSize = 5000000;
-    protected $nameImage;
-    protected $pathImage;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
-        if(!$this->request->ajax()) throw new HttpException(500);
+        if(!$this->request->ajax()) throw new HttpException(404);
     }
 
     public function getCities()
@@ -76,5 +72,10 @@ class Xhr extends Controller
     public function messagesSuccess()
     {
         return response()->view('_helpers.modals.success');
+    }
+
+    public function auctionPriceForm()
+    {
+        return view('_helpers.forms.auction-up');
     }
 }

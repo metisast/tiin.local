@@ -9,13 +9,13 @@
                     <div class="thumbnail">
                         <div class="media">
                             <div class="media-left">
-                                <a href="#">
-                                    <img class="media-object" src="..." alt="...">
+                                <a href="{{route('user::profile.products.show', $product->id)}}" class="thumbs">
+                                    <img class="media-object" src="/images/products-images/thumbs/{{$product->image()->name}}">
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4>
-                                ...
+                                <a href="{{route('user::profile.products.show', $product->id)}}">{{ $product->title }}</a>
+                                <p>{{ $product->description }}</p>
                             </div>
                         </div>
                     </div>

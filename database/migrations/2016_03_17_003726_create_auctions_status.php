@@ -7,6 +7,11 @@ class CreateAuctionsStatus extends Migration
 {
     /**
      * Run the migrations.
+     * 1. Waiting
+     * 2. Active
+     * 3. Finished
+     * 4. FinishedNotOk
+     * 5. Canceled
      *
      * @return void
      */

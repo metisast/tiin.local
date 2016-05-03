@@ -36,7 +36,7 @@ class ProductsController extends Controller
     public function create()
     {
         return view('user.products.create')
-            ->with('scripts', $a = ['product-publish', 'select', 'upload-product-images'])
+            ->with('scripts', $scripts = ['product-publish', 'select', 'upload-product-images'])
             ->with('categories', ProductsCategories::getCategories())
             ->with('regions', Region::getRegions());
     }
@@ -55,7 +55,7 @@ class ProductsController extends Controller
         $product->title = $request->input('title');
         $product->description = $request->input('description');
         $product->city_id = $request->input('city_id');
-        $product->ended = Carbon::now()->addDay(14);
+        //$product->ended = Carbon::now()->addDay(14);
         $product->status_publish = 1;
         $product->status_control = 1;
         $product->state = 1;
@@ -79,10 +79,22 @@ class ProductsController extends Controller
             for($i = 0; $i < count($images); $i++)
             {
                 $image->moveImage($images[$i]);
-                $create = $productsImages->create([
-                    'product_id' => $product->id,
-                    'name' => $images[$i]
-                ]);
+                if($i == 0)
+                {
+                    $create = $productsImages->create([
+                        'product_id' => $product->id,
+                        'name' => $images[$i],
+                        'main' => true
+                    ]);
+                }
+                else
+                {
+                    $create = $productsImages->create([
+                        'product_id' => $product->id,
+                        'name' => $images[$i]
+                    ]);
+                }
+
             }
         }
     }
@@ -95,7 +107,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        dd(Product::getProductById($id));
     }
 
     /**
@@ -106,7 +118,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
